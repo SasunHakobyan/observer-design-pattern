@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const express = require("express");
 const bodyParser = require('body-parser');
 
@@ -5,6 +7,7 @@ const Observable = require("./observable");
 const Observer = require("./observer");
 
 const saveToJson = require("./save-methods/saveToJson");
+const saveToMongo = require("./save-methods/saveToMongo");
 
 const app = express();
 
@@ -18,9 +21,11 @@ app.get('/', (req,res) => {
 
 app.post('/', (req,res) => {
     const observable = new Observable(req.body.userName, req.body.price);
-    const observer1 = new Observer(saveToJson);
+    const jsonObserver = new Observer(saveToJson);
+    const mongoObserver = new Observer(saveToMongo);
 
-    observable.addObserver(observer1);
+    observable.addObserver(jsonObserver);
+    observable.addObserver(mongoObserver);
     observable.saveData();
 
     res.redirect("/");

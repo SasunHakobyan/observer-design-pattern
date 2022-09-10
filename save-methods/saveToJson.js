@@ -4,13 +4,14 @@ const fs = require("fs");
 function saveToJsonData(userName, price) {
     const data = loadData();
     data.push({userName, price});
-    saveData(data)
+    saveData(data);
+    console.log("ON SAVE DATA");
 }
 
 // Loading JSON file data
 function loadData() {
     try {
-        const dataBuffer = fs.readFileSync("data.json");
+        const dataBuffer = fs.readFileSync("./json-data/data.json");
         const jsonData = JSON.parse(dataBuffer);
         return jsonData;
     } catch (err) {
@@ -21,7 +22,7 @@ function loadData() {
 // Saving data to JSON file 
 function saveData(data) {
     const jsonData = JSON.stringify(data);
-    fs.writeFileSync("data.json", jsonData);
+    fs.writeFileSync("./json-data/data.json", jsonData);
 }
 
 module.exports = saveToJsonData;
