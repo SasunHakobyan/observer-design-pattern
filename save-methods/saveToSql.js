@@ -18,7 +18,7 @@ const saveData = async (userName, price) => {
         const insertResult = await pool.query(insertQuery);
         console.log(await pool.query("SELECT * FROM person"));
 
-        await pool.end;
+        await pool.end();
     } catch (err) {
         console.log(err);
     }
