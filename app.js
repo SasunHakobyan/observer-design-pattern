@@ -8,6 +8,7 @@ const Observer = require("./observer");
 
 const saveToJson = require("./save-methods/saveToJson");
 const saveToMongo = require("./save-methods/saveToMongo");
+const saveToSql = require("./save-methods/saveToSql");
 
 const app = express();
 
@@ -23,14 +24,16 @@ app.post('/', (req,res) => {
     const observable = new Observable(req.body.userName, req.body.price);
     const jsonObserver = new Observer(saveToJson);
     const mongoObserver = new Observer(saveToMongo);
+    const postgreServer = new Observer(saveToSql);
 
     observable.addObserver(jsonObserver);
     observable.addObserver(mongoObserver);
+    observable.addObserver(postgreServer);
     observable.saveData();
 
     res.redirect("/");
 });
 
-app.listen(3000, () => {
-    console.log("Listening");
+app.listen(process.env.PORT, () => {
+    console.log("Listening on PORT:"+process.env.PORT);
 });
