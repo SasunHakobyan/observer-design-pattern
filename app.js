@@ -10,6 +10,10 @@ const saveToJson = require("./save-methods/saveToJson");
 const saveToMongo = require("./save-methods/saveToMongo");
 const saveToSql = require("./save-methods/saveToSql");
 
+const jsonObserver = new Observer(saveToJson);
+const mongoObserver = new Observer(saveToMongo);
+const postgreServer = new Observer(saveToSql);
+
 const app = express();
 
 app.use(bodyParser.json());
@@ -22,9 +26,6 @@ app.get('/', (req,res) => {
 
 app.post('/', (req,res) => {
     const observable = new Observable(req.body.userName, req.body.price);
-    const jsonObserver = new Observer(saveToJson);
-    const mongoObserver = new Observer(saveToMongo);
-    const postgreServer = new Observer(saveToSql);
 
     observable.addObserver(jsonObserver);
     observable.addObserver(mongoObserver);

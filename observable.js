@@ -1,3 +1,4 @@
+// Observable subject - User
 class Observable {
     constructor(userName, price) {
         this.userName = userName;
